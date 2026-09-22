@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* ==========================================================================
+   DEMO.CSS — Estilos exclusivos da página de demonstração/documentação
+   NÃO faz parte do core do framework. Serve apenas como exemplo visual.
+   Usa tokens do core.css para manter consistência estética.
+========================================================================== */
+
+@layer components {
+    /* Identidade / Logo */
+    .brand-logo {
+        font-size: var(--fs-h4);
+        font-weight: 700;
+        color: var(--color-text-title);
+        text-decoration: none;
+    }
+
+    /* Texto introdutório / Lead */
+    .lead-text {
+        color: var(--color-text-muted);
+        max-width: 60ch;
+        margin-inline: auto;
+        font-size: clamp(1rem, 2vw, 1.125rem);
+        line-height: var(--lh-body);
+    }
+
+    /* Grupo de botões CTA */
+    .action-group {
+        display: flex;
+        gap: var(--sp-sm);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* Botão pequeno (variante) */
+    .btn-sm {
+        padding: 0.4em 1em;
+        font-size: 0.875rem;
+    }
+
+    /* Seção com fundo alternativo */
+    .section-alt {
+        background-color: var(--color-bg-alt);
+    }
+
+    /* Grid de demonstração (mais flexível que u-grid para cards de demo) */
+    .demo-grid {
+        display: grid;
+        gap: var(--gutter);
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    }
+
+    /* Espaçamento entre seções da demo */
+    .demo-section + .demo-section {
+        margin-block-start: var(--sp-xl);
+    }
+}

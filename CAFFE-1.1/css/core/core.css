@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   1. CAMADAS DE PRIORIDADE (CSS Layers)
+   "overrides" é reservada aqui para o tema do projeto consumidor
+   (css/theme/estilo-global.css) — declarada por último, então sempre
+   vence a cascata, independentemente da ordem de @import em index.css.
+   ========================================================================== */
+@layer base, layout, components, utilities, overrides;
+
+/* ==========================================================================
+   2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
+   ========================================================================== */
+@layer base {
+    :root[data-theme="light"] {
+        --color-bg-main: #f8f9fa;
+        --color-bg-surface: #ffffff;
+        --color-bg-alt: #f9fafb;
+        --color-text-main: #1f2937;
+        --color-text-muted: #6b7280;
+        --color-text-title: #111827;
+        --color-border: #e5e7eb;
+
+        --color-primary: #2563eb;
+        --color-primary-hover: #1d4ed8;
+        --color-secondary: #0b3157;
+        --color-white: #ffffff;
+        --color-overlay: rgba(0, 0, 0, 0.5);
+    }
+
+    :root[data-theme="dark"] {
+        --color-bg-main: #121212;
+        --color-bg-surface: #1e1e1e;
+        --color-bg-alt: #2a2a2a;
+        --color-text-main: #f8f9fa;
+        --color-text-muted: #adb5bd;
+        --color-text-title: #ffffff;
+        --color-border: #333333;
+
+        --color-primary: #3b82f6;
+        --color-primary-hover: #60a5fa;
+        --color-secondary: #164e7a;
+        --color-white: #ffffff;
+        --color-overlay: rgba(0, 0, 0, 0.7);
+    }
+
+    :root {
+        /* Espaçamento Fluido */
+        --sp-xs: 0.5rem;
+        --sp-sm: 1rem;
+        --sp-md: 1.5rem;
+        --sp-lg: 3rem;
+        --sp-xl: clamp(3rem, 10vh, 6rem);
+
+        /* Layout & Bordas */
+        --container-max: 1200px;
+        --radius: 8px;
+        --gutter: 1.5rem;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+
+        /* Camadas de empilhamento (z-index) */
+        --z-header: 1000;
+        --z-dropdown: 1010;
+        --z-offcanvas: 1900;
+        --z-modal: 2000;
+
+        /* Tipografia Fluida */
+        --fs-h1: clamp(2.5rem, 8vw, 4rem);
+        --fs-h2: clamp(2rem, 6vw, 3rem);
+        --fs-h3: clamp(1.5rem, 4vw, 2rem);
+        --fs-h4: clamp(1.25rem, 3vw, 1.5rem);
+        --fs-base: 1rem;
+
+        --lh-titles: 1.1;
+        --lh-body: 1.6;
+
+        /* Cores de Estado fixas — usadas em validação de formulários (ver docs) */
+        --clr-success: #16a34a;
+        --clr-warning: #f59e0b;
+        --clr-danger: #dc2626;
+    }
+
+    /* Reset Base e Transição Suave */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /*
+     * body em flex column + min-height: 100dvh permite que .main-footer
+     * (que usa margin-top: auto) seja empurrado para o fim da viewport em
+     * páginas com pouco conteúdo, sem precisar de position: fixed/absolute.
+     */
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: var(--color-bg-main);
+        color: var(--color-text-main);
+        line-height: var(--lh-body);
+        font-size: var(--fs-base);
+        -webkit-font-smoothing: antialiased;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    img { max-width: 100%; height: auto; display: block; object-fit: cover; }
+
+    h1, h2, h3, h4, h5, h6 {
+        line-height: var(--lh-titles);
+        font-weight: 700;
+        color: var(--color-text-title);
+        margin: 0;
+    }
+    h1 { font-size: var(--fs-h1); }
+    h2 { font-size: var(--fs-h2); }
+    h3 { font-size: var(--fs-h3); }
+    h4 { font-size: var(--fs-h4); }
+
+    p { margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+    a { color: inherit; text-decoration: none; transition: 0.2s; }
+
+    /* Acessibilidade global (foco visível) */
+    :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: var(--radius);
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@layer layout {
+    .section-container {
+        width: min(var(--container-max), 100% - 3rem);
+        margin-inline: auto;
+    }
+    .section-main { padding-block: var(--sp-xl); position: relative; }
+
+    /* Variante de fundo alternado para seções (ex.: alternar contraste entre blocos) */
+    .section-alt { background-color: var(--color-bg-alt); }
+
+    /* Grid fixo para demonstrações/documentação — 2 colunas responsivas */
+    .demo-grid {
+        display: grid;
+        gap: var(--gutter);
+        grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    }
+}
+
+/*
+ * Classes utilitárias de layout (prefixo u-) vivem na layer "utilities",
+ * não "layout" — isso garante que elas sempre vençam em empates de
+ * especificidade contra estilos de @layer components, como a convenção
+ * de nomenclatura do projeto promete.
+ */
+@layer utilities {
+    .u-grid {
+        display: grid;
+        gap: var(--gutter);
+        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    }
+    .u-stack > * + * { margin-top: var(--sp-md); }
+    .u-center { display: grid; place-items: center; text-align: center; }
+}
