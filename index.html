@@ -1,27 +1,242 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rugby</title>
+    <title>Rugby School Clubs</title>
+    <link rel="stylesheet" href="CAFFE-1.1/css/caffe.css">
 </head>
 <body>
-    <header>
-        <figure>
-            <img src="" alt="logo site">
-        </figure>
-        <section class="hero">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-               Rugby
-              </h1>
-              <h2 class="subtitle">
-             Rugby
-              </h2>
-            </div>
-          </div>
-        </section>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="main-header">
+        <div class="section-container nav-wrapper">
+            <a href="/" class="logo" aria-label="Rugby School Club - Início">
+                <strong>Rugby School</strong>
+            </a>
+
+            <button class="nav-toggle-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu">
+                ☰
+            </button>
+
+            <nav id="primary-nav" class="nav-menu">
+                <ul style="display: contents;">
+                    <li><a href="#tickets" class="nav-link">Tickets</a></li>
+                    <li><a href="#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="#news" class="nav-link">News</a></li>
+                    <li><a href="#video" class="nav-link">Video</a></li>
+                </ul>
+                
+                <div class="has-dropdown">
+                    <button class="nav-link" aria-haspopup="true" aria-expanded="false">Mais ▼</button>
+                    <ul class="dropdown">
+                        <li><a href="#" class="nav-link">Magazine</a></li>
+                        <li><a href="#" class="nav-link">Join Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="u-flex u-gap-sm u-mt-auto">
+                    <a href="#login" class="btn btn-outline">Login</a>
+                    <a href="#signup" class="btn btn-primary">Sign Up</a>
+                </div>
+            </nav>
+        </div>
     </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="section-main u-center u-min-h-60">
+            <div class="section-container u-stack">
+                <h1>Rugby School Club</h1>
+                <p class="u-weight-bold u-fs-h4 u-text-muted">
+                    Training athletes, making dreams come true, creating champions.
+                </p>
+                <div class="u-flex u-flex-wrap u-justify-center u-gap-sm">
+                    <a href="#matricyle" class="btn btn-primary">Matricule seu filho</a>
+                    <a href="#practice" class="btn btn-outline">Comece a treinar</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWS GRID -->
+        <section id="news" class="section-main section-alt">
+            <div class="section-container">
+                <h2 class="u-mb-2">Rugby News</h2>
+                
+                <div class="u-grid">
+                    <article class="card">
+                        <img src="https://placehold.co/600x400/png?text=Rugby+One" alt="Rugby One" loading="lazy">
+                        <div class="card__body">
+                            <h3>Rugby One</h3>
+                            <p>Resumo breve da notícia sobre o primeiro time e conquistas recentes.</p>
+                            <a href="#" class="btn btn-outline u-mt-auto">Ler mais</a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://placehold.co/600x400/png?text=Rugby+Two" alt="Rugby Two" loading="lazy">
+                        <div class="card__body">
+                            <h3>Rugby Two</h3>
+                            <p>Atualizações sobre a categoria de base e desenvolvimento técnico.</p>
+                            <a href="#" class="btn btn-outline u-mt-auto">Ler mais</a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://placehold.co/600x400/png?text=Rugby+Three" alt="Rugby Three" loading="lazy">
+                        <div class="card__body">
+                            <h3>Rugby Three</h3>
+                            <p>Cobertura dos eventos sociais e integração com a comunidade local.</p>
+                            <a href="#" class="btn btn-outline u-mt-auto">Ler mais</a>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://placehold.co/600x400/png?text=Rugby+Four" alt="Rugby Four" loading="lazy">
+                        <div class="card__body">
+                            <h3>Rugby Four</h3>
+                            <p>Análise tática e preparação física para a próxima temporada.</p>
+                            <a href="#" class="btn btn-outline u-mt-auto">Ler mais</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- COACHES & INFO (TABS) -->
+        <section class="section-main">
+            <div class="section-container">
+                <h2 class="u-mb-2">We have better coaches</h2>
+                
+                <div class="tabs-nav" role="tablist">
+                    <button class="tab-btn is-active" role="tab" aria-selected="true" aria-controls="panel-coaches" id="tab-coaches">Coaches</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-highlights" id="tab-highlights">Highlights</button>
+                    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-facilities" id="tab-facilities">Facilities</button>
+                </div>
+
+                <div id="panel-coaches" class="tab-panel is-active" role="tabpanel" aria-labelledby="tab-coaches">
+                    <div class="u-grid">
+                        <div class="u-stack">
+                            <h3>Lion Mass</h3>
+                            <p class="u-text-center u-text-muted">Warriors Cats • Nº00001</p>
+                        </div>
+                        <div class="u-stack">
+                            <h3>Zezo Rugby Lord</h3>
+                            <p class="u-text-center u-text-muted">Warriors Cat • Nº0002</p>
+                        </div>
+                        <div class="u-stack">
+                            <h3>Zezinho The Ninja</h3>
+                            <p class="u-text-center u-text-muted">Warriors Cat • Nº0003</p>
+                        </div>
+                        <div class="u-stack">
+                            <h3>Sr. Jijiteiro</h3>
+                            <p class="u-text-center u-text-muted">Warriors Cat • Nº0004</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panel-highlights" class="tab-panel" role="tabpanel" aria-labelledby="tab-highlights">
+                    <div class="u-stack">
+                        <h3>Warriors Cats in action!</h3>
+                        <p>HIGHLIGHTS: São José City SC, October 20 2023</p>
+                        <div class="u-aspect-video u-bg-alt u-radius" role="img" aria-label="Vídeo destaque"></div>
+                    </div>
+                </div>
+
+                <div id="panel-facilities" class="tab-panel" role="tabpanel" aria-labelledby="tab-facilities">
+                    <div class="u-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Renovated Field</h3>
+                                <p>Grama sintética de última geração para treinos intensivos.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Physical Prep</h3>
+                                <p>Academia completa focada em resistência e força explosiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLUB SITES -->
+        <section class="section-main section-alt">
+            <div class="section-container">
+                <h2 class="u-mb-2">Club Sites</h2>
+                <p class="u-mb-2">Ready to start your Rugby journey? Explore our partner clubs.</p>
+                
+                <div class="u-grid u-grid-cols-auto">
+                    <a href="#" class="btn btn-outline">Selvagens</a>
+                    <a href="#" class="btn btn-outline">Furia da Serra</a>
+                    <a href="#" class="btn btn-outline">Cidade</a>
+                    <a href="#" class="btn btn-outline">Guerreiros do Vale</a>
+                    <a href="#" class="btn btn-outline">Vila Rica</a>
+                    <a href="#" class="btn btn-outline">Colorado</a>
+                    <a href="#" class="btn btn-outline">Fradel</a>
+                    <a href="#" class="btn btn-outline">Aurora</a>
+                    <a href="#" class="btn btn-outline">Império</a>
+                    <a href="#" class="btn btn-outline">Leões</a>
+                    <a href="#" class="btn btn-outline">Pardais do Rugby</a>
+                    <a href="#" class="btn btn-outline">Schwartz</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="section-container">
+            <div class="u-grid u-grid-cols-footer u-gap-lg">
+                
+                <div class="u-stack">
+                    <h4>Tickets</h4>
+                    <ul class="u-stack u-list-none">
+                        <li><a href="#" class="nav-link">Single Game</a></li>
+                        <li><a href="#" class="nav-link">Group Tickets</a></li>
+                        <li><a href="#" class="nav-link">Premium Seating</a></li>
+                    </ul>
+                </div>
+
+                <div class="u-stack">
+                    <h4>Club</h4>
+                    <ul class="u-stack u-list-none">
+                        <li><a href="#" class="nav-link">Roster</a></li>
+                        <li><a href="#" class="nav-link">Facilities</a></li>
+                        <li><a href="#" class="nav-link">Careers</a></li>
+                        <li><a href="#" class="nav-link">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="u-stack">
+                    <h4>Media</h4>
+                    <ul class="u-stack u-list-none">
+                        <li><a href="#" class="nav-link">Latest News</a></li>
+                        <li><a href="#" class="nav-link">Videos</a></li>
+                        <li><a href="#" class="nav-link">Press Kits</a></li>
+                        <li><a href="#" class="nav-link">Credential Requests</a></li>
+                    </ul>
+                </div>
+
+                <div class="u-stack">
+                    <h4>Legal</h4>
+                    <ul class="u-stack u-list-none">
+                        <li><a href="#" class="nav-link">Fan Code of Conduct</a></li>
+                        <li><a href="#" class="nav-link">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="u-mt-lg u-pt-md u-border-top u-text-center u-text-sm u-text-muted">
+                <p>&copy; 2023 Rugby School Club. Author Bossle J. Template for study.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="engine.js" defer></script>
 </body>
 </html>
