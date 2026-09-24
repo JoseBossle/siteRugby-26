@@ -253,11 +253,7 @@
         margin-bottom: var(--sp-md);
     }
 
-    .tab-btn {/* ==========================================================================
-   DEMO.CSS — Estilos exclusivos da página de demonstração/documentação
-   NÃO faz parte do core do framework. Serve apenas como exemplo visual.
-   Usa tokens do core.css para manter consistência estética.
-========================================================================== */
+    .tab-btn {
         padding: 0.8rem 1.2rem;
         background: none;
         border: none;
@@ -267,11 +263,7 @@
         border-bottom: 2px solid transparent;
         margin-bottom: -2px;
         transition: 0.2s;
-    }/* ==========================================================================
-   DEMO.CSS — Estilos exclusivos da página de demonstração/documentação
-   NÃO faz parte do core do framework. Serve apenas como exemplo visual.
-   Usa tokens do core.css para manter consistência estética.
-========================================================================== */
+    }
 
     .tab-btn.is-active {
         color: var(--color-primary);
