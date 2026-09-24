@@ -1,9 +1,5 @@
 @charset "utf-8";
-/* ==========================================================================
-   DEMO.CSS — Estilos exclusivos da página de demonstração/documentação
-   NÃO faz parte do core do framework. Serve apenas como exemplo visual.
-   Usa tokens do core.css para manter consistência estética.
-========================================================================== */
+
 
 @layer components {
     /* Identidade / Logo */
