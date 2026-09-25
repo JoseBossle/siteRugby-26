@@ -1,52 +1,61 @@
 @charset "utf-8";
-
-
-@layer components {
-    /* Identidade / Logo */
-    .brand-logo {
-        font-size: var(--fs-h4);
-        font-weight: 700;
-        color: var(--color-text-title);
-        text-decoration: none;
-    }
-
-    /* Texto introdutório / Lead */
-    .lead-text {
-        color: var(--color-text-muted);
-        max-width: 60ch;
-        margin-inline: auto;
-        font-size: clamp(1rem, 2vw, 1.125rem);
-        line-height: var(--lh-body);
-    }
-
-    /* Grupo de botões CTA */
-    .action-group {
-        display: flex;
-        gap: var(--sp-sm);
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    /* Botão pequeno (variante) */
-    .btn-sm {
-        padding: 0.4em 1em;
-        font-size: 0.875rem;
-    }
-
-    /* Seção com fundo alternativo */
-    .section-alt {
-        background-color: var(--color-bg-alt);
-    }
-
-    /* Grid de demonstração (mais flexível que u-grid para cards de demo) */
-    .demo-grid {
-        display: grid;
-        gap: var(--gutter);
-        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    }
-
-    /* Espaçamento entre seções da demo */
-    .demo-section + .demo-section {
-        margin-block-start: var(--sp-xl);
-    }
+:root{
+    --color-one:#F21326;
+    --color-two:#F2133C;
+    --color-three:#F2B807;
+    --color-four:#F2A007;
+    --color-five:#0D0D0D;
 }
+
+
+
+  
+    
+.main-header{
+    background-color: var(--color-five);
+    
+   
+}
+
+#primary-nav{
+    display:none;
+}
+
+#element-header{
+   display: flex;
+   flex-direction:row;
+   justify-content:space-between
+  
+}
+
+#img-logo{
+    border-radius: 50%;
+    width: 80px;;
+    height: 80px;
+
+}
+
+
+.nav-toggle-btn{
+     width: 25px;;
+    height:25px;
+    margin-top: 15px;
+}
+
+.hero{
+    height: 100dvh;
+    background-image: url("/assets/imgs/Img-Header.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+   
+}
+
+
+h1{
+    margin-top:40px;
+}
+
+p{
+    font-size: var(--fs-h3);}
+   
