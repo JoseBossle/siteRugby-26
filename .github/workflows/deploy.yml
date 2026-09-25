@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+# Permissões mínimas necessárias para publicar no Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita deploys concorrentes conflitantes (ex: dois pushes seguidos rápidos)
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Preparar diretório de build
+        # Copia tudo para uma pasta separada (_site) para não sujar o repositório fonte
+        run: |
+          mkdir -p _site
+          cp -r * _site/ 2>/dev/null || true
+          rm -rf _site/_site
+
+      - name: Corrigir caminhos absolutos para relativos
+        # Rede de segurança: converte href="/x", src="/x" e url("/x")
+        # em referências relativas, evitando 404 causado por barra inicial
+        run: |
+          find _site -type f \( -name "*.html" -o -name "*.css" \) -print0 | \
+          xargs -0 sed -i \
+            -e 's/href="\//href="/g' \
+            -e 's/src="\//src="/g' \
+            -e 's/url("\//url("/g' \
+            -e "s/url('\//url('/g"
+
+      - name: Desativar processamento Jekyll
+        run: touch _site/.nojekyll
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload do artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
