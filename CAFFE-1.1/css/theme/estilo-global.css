@@ -59,3 +59,7 @@ h1{
 p{
     font-size: var(--fs-h3);}
    
+.u-img-fluid{
+    width:400px;
+    height:400px;
+}
