@@ -59,7 +59,10 @@ h1{
 p{
     font-size: var(--fs-h3);}
    
-.u-img-fluid{
-    width:400px;
-    height:400px;
+.img-treinadores{
+   width: 100%;
+   max-width: 400px;
+   height: 400px;
+   max-height: 400px;
+   object-fit: cover;
 }
