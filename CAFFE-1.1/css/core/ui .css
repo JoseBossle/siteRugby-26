@@ -57,7 +57,7 @@
     }
 
     /* Links da navegação já nascem com tipografia e cores padronizadas */
-    .nav-link {
+    .nav a {
         color: var(--color-text-main);
         font-weight: 500;
         text-decoration: none;
@@ -65,7 +65,7 @@
         padding: var(--sp-xs) 0;
     }
 
-    .nav-link:hover {
+    .nav a:hover {
         color: var(--color-black);
         opacity: 0.85;
     }
