@@ -42,6 +42,10 @@
     margin-top: 15px;
 }
 
+.nav-menu a{
+    color:#fff; 
+}
+
 .hero{
     height: 100dvh;
    background-image: url(../../../assets/imgs/Img-header.jpg);

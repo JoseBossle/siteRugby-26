@@ -2,6 +2,10 @@
 /* ==========================================================================
 1. HEADER & NAVIGATION (Responsividade 1024px)
 ========================================================================== */
+@layer components {
+/* ==========================================================================
+1. HEADER & NAVIGATION (Estilo Profissional)
+========================================================================== */
 .main-header {
     background-color: var(--color-bg-surface);
     color: var(--color-text-main);
@@ -11,11 +15,12 @@
     z-index: var(--z-header);
     border-bottom: 1px solid var(--color-border);
     box-shadow: var(--shadow);
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .main-header.is-scrolled {
     box-shadow: var(--shadow-lg);
+    padding-block: var(--sp-xs); /* Header fica mais compacto ao rolar */
 }
 
 .nav-wrapper {
@@ -26,30 +31,15 @@
     margin-inline: auto;
 }
 
-/* Logo Adaptativo */
+/* Branding */
 .brand-logo {
     height: auto;
-    max-height: 48px; /* Limite base para mobile */
+    max-height: 48px;
     width: auto;
     object-fit: contain;
-    transition: max-height 0.3s ease;
 }
 
-/* Tipografia Fluida no Header */
-.brand-title {
-    font-size: clamp(1.25rem, 4vw, 1.75rem);
-    line-height: 1.2;
-    font-weight: 700;
-    color: var(--color-text-title);
-}
-
-.brand-subtitle {
-    font-size: clamp(0.75rem, 2vw, 0.9rem);
-    color: var(--color-text-muted);
-    display: block;
-}
-
-/* Menu Mobile (Padrão até 1024px) */
+/* Menu Mobile */
 .nav-menu {
     display: none;
     list-style: none;
@@ -67,19 +57,36 @@
     padding: var(--sp-md);
     box-shadow: var(--shadow-lg);
     border-bottom: 1px solid var(--color-border);
-    border-radius: 0 0 var(--radius) var(--radius);
-    animation: slideDown 0.3s ease;
 }
 
+/* Links da Navegação - Estilo Desktop Profissional */
 .nav-link {
     color: var(--color-text-main);
     font-weight: 500;
     text-decoration: none;
-    transition: color 0.2s ease;
-    padding: var(--sp-xs) 0;
-    display: block;
+    padding: 0.6em 1.2em; /* Padding generoso para área de clique */
+    border-radius: var(--radius);
+    border: 1px solid transparent; /* Borda invisível para evitar pulo de layout */
+    transition: all 0.2s ease;
+    display: inline-block;
 }
 
+/* Estado Hover/Focus dos Links */
+.nav-link:hover,
+.nav-link:focus-visible {
+    color: var(--color-primary);
+    background-color: var(--color-bg-alt);
+    border-color: var(--color-border);
+}
+
+/* Link Ativo (opcional, pode ser controlado via JS ou classe manual) */
+.nav-link.is-active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+/* Botão Hambúrguer */
 .nav-toggle-btn {
     background: transparent;
     border: 1px solid var(--color-border);
@@ -88,7 +95,7 @@
     cursor: pointer;
     padding: var(--sp-xs) var(--sp-sm);
     border-radius: var(--radius);
-    display: block; /* Visível por padrão (mobile) */
+    display: block;
 }
 
 /* Dropdown */
@@ -98,9 +105,9 @@
     inset-block-start: 100%;
     inset-inline-end: 0;
     background: var(--color-bg-surface);
-    min-width: 200px;
+    min-width: 220px;
     padding: var(--sp-sm);
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
     border-radius: var(--radius);
     display: none;
     border: 1px solid var(--color-border);
@@ -109,6 +116,30 @@
 }
 
 .dropdown.is-active { display: block; }
+
+/* ==========================================================================
+DESKTOP BREAKPOINT (1024px)
+========================================================================== */
+@media (min-width: 1024px) {
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row;
+        position: static;
+        background: transparent;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .nav-toggle-btn {
+        display: none;
+    }
+    
+    .brand-logo {
+        max-height: 64px;
+    }
+}
+}
 
 
 /* ==========================================================================
