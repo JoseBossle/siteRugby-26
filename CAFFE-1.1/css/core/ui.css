@@ -1,0 +1,223 @@
+@layer components {
+/* ==========================================================================
+1. HEADER & NAVIGATION (Responsividade 1024px)
+========================================================================== */
+.main-header {
+    background-color: var(--color-bg-surface);
+    color: var(--color-text-main);
+    padding-block: var(--sp-sm);
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--z-header);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-header.is-scrolled {
+    box-shadow: var(--shadow-lg);
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: min(var(--container-max), 100% - 3rem);
+    margin-inline: auto;
+}
+
+/* Logo Adaptativo */
+.brand-logo {
+    height: auto;
+    max-height: 48px; /* Limite base para mobile */
+    width: auto;
+    object-fit: contain;
+    transition: max-height 0.3s ease;
+}
+
+/* Tipografia Fluida no Header */
+.brand-title {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--color-text-title);
+}
+
+.brand-subtitle {
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    color: var(--color-text-muted);
+    display: block;
+}
+
+/* Menu Mobile (Padrão até 1024px) */
+.nav-menu {
+    display: none;
+    list-style: none;
+    gap: var(--sp-md);
+    align-items: center;
+}
+
+.nav-menu.is-active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline: 0;
+    background: var(--color-bg-surface);
+    padding: var(--sp-md);
+    box-shadow: var(--shadow-lg);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius) var(--radius);
+    animation: slideDown 0.3s ease;
+}
+
+.nav-link {
+    color: var(--color-text-main);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: var(--sp-xs) 0;
+    display: block;
+}
+
+.nav-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: var(--sp-xs) var(--sp-sm);
+    border-radius: var(--radius);
+    display: block; /* Visível por padrão (mobile) */
+}
+
+/* Dropdown */
+.has-dropdown { position: relative; }
+.dropdown {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-end: 0;
+    background: var(--color-bg-surface);
+    min-width: 200px;
+    padding: var(--sp-sm);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    display: none;
+    border: 1px solid var(--color-border);
+    z-index: var(--z-dropdown);
+    list-style: none;
+}
+
+.dropdown.is-active { display: block; }
+
+
+/* ==========================================================================
+8. IMAGENS DE SEÇÃO AUTOMATIZADAS (Ajuste de Altura)
+========================================================================== */
+.@layer components {
+    .img-section {
+        width: 100%;
+        /* Define uma altura fluida: mínima de 250px, ideal 40% da tela, máxima 600px */
+        height: clamp(250px, 40vh, 600px); 
+        object-fit: cover; /* Mantém a proporção preenchendo a área */
+        object-position: center; /* Foca no centro da imagem */
+        border-radius: var(--radius);
+    }
+}
+
+
+
+/* Efeito de hover opcional direto na imagem */
+.img-section:hover {
+    transform: scale(1.02);
+}
+}
+
+/* Desktop: Breakpoint ajustado para 1024px */
+@media (min-width: 1024px) {
+    .nav-menu {
+        display: flex !important;
+        flex-direction: row;
+        position: static;
+        background: transparent;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        animation: none;
+    }
+
+    .nav-toggle-btn {
+        display: none;
+    }
+
+    .brand-logo {
+        max-height: 64px; /* Logo maior no desktop */
+    }
+    
+    .nav-link {
+        padding: var(--sp-sm);
+    }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+2. CARDS E OUTROS COMPONENTES (Mantidos para contexto)
+========================================================================== */
+.card {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+}
+
+/* ==========================================================================
+8. IMAGENS DE SEÇÃO AUTOMATIZADAS (Hero/Banner)
+========================================================================== */
+.section-media {
+    position: relative;
+    width: 100%;
+    /* Altura mínima garantida para mobile, crescendo fluidamente até 600px */
+    min-height: clamp(250px, 40vh, 600px); 
+    overflow: hidden;
+    border-radius: var(--radius);
+    background-color: var(--color-bg-alt); /* Fallback visual */
+}
+
+.section-media__img {
+    position: absolute;
+    inset: 0; /* Ocupa todo o espaço do pai */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante preenchimento sem distorção */
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+/* Efeito de interação sutil */
+.section-media:hover .section-media__img {
+    transform: scale(1.05);
+}
+
+/* Overlay para garantir contraste de texto sobre imagem */
+.section-media__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    pointer-events: none;
+    z-index: 1;
+}

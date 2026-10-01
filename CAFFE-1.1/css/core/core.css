@@ -1,16 +1,15 @@
 @charset "utf-8";
-
 /* ==========================================================================
-   1. CAMADAS DE PRIORIDADE (CSS Layers)
-   "overrides" é reservada aqui para o tema do projeto consumidor
-   (css/theme/estilo-global.css) — declarada por último, então sempre
-   vence a cascata, independentemente da ordem de @import em index.css.
-   ========================================================================== */
+CAMADAS DE PRIORIDADE (CSS Layers)
+"overrides" é reservada aqui para o tema do projeto consumidor
+(css/theme/estilo-global.css) — declarada por último, então sempre
+vence a cascata, independentemente da ordem de @import em index.css.
+========================================================================== */
 @layer base, layout, components, utilities, overrides;
 
 /* ==========================================================================
-   2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
-   ========================================================================== */
+2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
+========================================================================== */
 @layer base {
     :root[data-theme="light"] {
         --color-bg-main: #f8f9fa;
@@ -20,13 +19,13 @@
         --color-text-muted: #6b7280;
         --color-text-title: #111827;
         --color-border: #e5e7eb;
-
         --color-primary: #2563eb;
         --color-primary-hover: #1d4ed8;
         --color-secondary: #0b3157;
         --color-white: #ffffff;
         --color-overlay: rgba(0, 0, 0, 0.5);
     }
+    
 
     :root[data-theme="dark"] {
         --color-bg-main: #121212;
@@ -36,7 +35,6 @@
         --color-text-muted: #adb5bd;
         --color-text-title: #ffffff;
         --color-border: #333333;
-
         --color-primary: #3b82f6;
         --color-primary-hover: #60a5fa;
         --color-secondary: #164e7a;
@@ -71,15 +69,29 @@
         --fs-h3: clamp(1.5rem, 4vw, 2rem);
         --fs-h4: clamp(1.25rem, 3vw, 1.5rem);
         --fs-base: 1rem;
-
         --lh-titles: 1.1;
         --lh-body: 1.6;
 
-        /* Cores de Estado fixas — usadas em validação de formulários (ver docs) */
+        /* Tokens de Altura para Seções de Mídia (Automatização) */
+        --media-height-min: 250px;
+        --media-height-preferred: 40vh;
+        --media-height-max: 600px;
+
+        /* Cores de Estado fixas — usadas em validação de formulários */
         --clr-success: #16a34a;
         --clr-warning: #f59e0b;
         --clr-danger: #dc2626;
     }
+    
+    @layer utilities {
+    /* ... outras utilidades ... */
+    
+    /* Utilitários de Altura para Imagens Responsivas */
+    .u-h-sm { height: 250px; }
+    .u-h-md { height: 400px; }
+    .u-h-lg { height: 600px; }
+    .u-h-fluid { height: clamp(250px, 40vh, 600px); } /* A mágica da automação */
+}
 
     /* Reset Base e Transição Suave */
     *, *::before, *::after {
@@ -90,11 +102,6 @@
 
     html { scroll-behavior: smooth; }
 
-    /*
-     * body em flex column + min-height: 100dvh permite que .main-footer
-     * (que usa margin-top: auto) seja empurrado para o fim da viewport em
-     * páginas com pouco conteúdo, sem precisar de position: fixed/absolute.
-     */
     body {
         display: flex;
         flex-direction: column;
@@ -108,7 +115,12 @@
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    img { max-width: 100%; height: auto; display: block; object-fit: cover; }
+    /* AJUSTE TÉCNICO: Removido object-fit: cover para evitar cortes globais indesejados */
+    img { 
+        max-width: 100%; 
+        height: auto; 
+        display: block; 
+    }
 
     h1, h2, h3, h4, h5, h6 {
         line-height: var(--lh-titles);
@@ -116,6 +128,7 @@
         color: var(--color-text-title);
         margin: 0;
     }
+    
     h1 { font-size: var(--fs-h1); }
     h2 { font-size: var(--fs-h2); }
     h3 { font-size: var(--fs-h3); }
@@ -123,6 +136,7 @@
 
     p { margin-bottom: 1rem; }
     p:last-child { margin-bottom: 0; }
+
     a { color: inherit; text-decoration: none; transition: 0.2s; }
 
     /* Acessibilidade global (foco visível) */
@@ -159,12 +173,18 @@
         width: min(var(--container-max), 100% - 3rem);
         margin-inline: auto;
     }
-    .section-main { padding-block: var(--sp-xl); position: relative; }
 
-    /* Variante de fundo alternado para seções (ex.: alternar contraste entre blocos) */
-    .section-alt { background-color: var(--color-bg-alt); }
+    .section-main { 
+        padding-block: var(--sp-xl); 
+        position: relative; 
+    }
 
-    /* Grid fixo para demonstrações/documentação — 2 colunas responsivas */
+    /* Variante de fundo alternado para seções */
+    .section-alt { 
+        background-color: var(--color-bg-alt); 
+    }
+
+    /* Grid fixo para demonstrações/documentação */
     .demo-grid {
         display: grid;
         gap: var(--gutter);
@@ -172,18 +192,21 @@
     }
 }
 
-/*
- * Classes utilitárias de layout (prefixo u-) vivem na layer "utilities",
- * não "layout" — isso garante que elas sempre vençam em empates de
- * especificidade contra estilos de @layer components, como a convenção
- * de nomenclatura do projeto promete.
- */
+/* Classes utilitárias de layout (prefixo u-) vivem na layer "utilities" */
 @layer utilities {
     .u-grid {
         display: grid;
         gap: var(--gutter);
         grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     }
-    .u-stack > * + * { margin-top: var(--sp-md); }
-    .u-center { display: grid; place-items: center; text-align: center; }
+    
+    .u-stack > * + * { 
+        margin-top: var(--sp-md); 
+    }
+    
+    .u-center { 
+        display: grid; 
+        place-items: center; 
+        text-align: center; 
+    }
 }

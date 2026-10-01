@@ -54,10 +54,12 @@
 
 h1{
     margin-top:40px;
+  
 }
 
 p{
-    font-size: var(--fs-h3);}
+    font-size: var(--fs-h3);
+    }
    
 .img-treinadores{
    width: 100%;
