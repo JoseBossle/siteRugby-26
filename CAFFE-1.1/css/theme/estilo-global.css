@@ -43,7 +43,12 @@
 }
 
 .nav-menu a{
-    color:#fff; 
+     border:#dc0909 solid 2px;
+}
+
+.nav-menu a{
+    color:#dc0909; 
+   
 }
 
 .hero{

@@ -1,15 +1,13 @@
 @charset "utf-8";
-/* ==========================================================================
-CAMADAS DE PRIORIDADE (CSS Layers)
-"overrides" é reservada aqui para o tema do projeto consumidor
-(css/theme/estilo-global.css) — declarada por último, então sempre
-vence a cascata, independentemente da ordem de @import em index.css.
-========================================================================== */
-@layer base, layout, components, utilities, overrides;
 
 /* ==========================================================================
-2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
-========================================================================== */
+   1. CAMADAS DE PRIORIDADE (CSS Layers)
+   ========================================================================== */
+@layer base, layout, components, utilities;
+
+/* ==========================================================================
+   2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
+   ========================================================================== */
 @layer base {
     :root[data-theme="light"] {
         --color-bg-main: #f8f9fa;
@@ -19,14 +17,13 @@ vence a cascata, independentemente da ordem de @import em index.css.
         --color-text-muted: #6b7280;
         --color-text-title: #111827;
         --color-border: #e5e7eb;
+
         --color-primary: #2563eb;
         --color-primary-hover: #1d4ed8;
         --color-secondary: #0b3157;
         --color-white: #ffffff;
         --color-overlay: rgba(0, 0, 0, 0.5);
-        --color-black: #000000;
     }
-    
 
     :root[data-theme="dark"] {
         --color-bg-main: #121212;
@@ -36,6 +33,7 @@ vence a cascata, independentemente da ordem de @import em index.css.
         --color-text-muted: #adb5bd;
         --color-text-title: #ffffff;
         --color-border: #333333;
+
         --color-primary: #3b82f6;
         --color-primary-hover: #60a5fa;
         --color-secondary: #164e7a;
@@ -70,31 +68,37 @@ vence a cascata, independentemente da ordem de @import em index.css.
         --fs-h3: clamp(1.5rem, 4vw, 2rem);
         --fs-h4: clamp(1.25rem, 3vw, 1.5rem);
         --fs-base: 1rem;
+
         --lh-titles: 1.1;
         --lh-body: 1.6;
 
-        /* Tokens de Altura para Seções de Mídia (Automatização) */
-        --media-height-min: 250px;
-        --media-height-preferred: 40vh;
-        --media-height-max: 600px;
-
-        /* Cores de Estado fixas — usadas em validação de formulários */
+        /* Cores de Estado fixas */
         --clr-success: #16a34a;
         --clr-warning: #f59e0b;
         --clr-danger: #dc2626;
     }
-    
-    @layer utilities {
-    /* ... outras utilidades ... */
-    
-    /* Utilitários de Altura para Imagens Responsivas */
-    .u-h-sm { height: 250px; }
-    .u-h-md { height: 400px; }
-    .u-h-lg { height: 600px; }
-    .u-h-fluid { height: clamp(250px, 40vh, 600px); } /* A mágica da automação */
-}
 
-    /* Reset Base e Transição Suave */
+    /* ==========================================================================
+       2.5 ESCALA DE BREAKPOINTS (referência)
+       --------------------------------------------------------------------------
+       CSS não permite ler custom properties dentro de @media — é uma limitação
+       real da linguagem, não um descuido. Tailwind/Bootstrap "resolvem" isso com
+       um passo de build que injeta os valores nos utilitários gerados; o CAFFE,
+       por filosofia, não tem build step. Então esta escala funciona como a
+       FONTE DA VERDADE documentada — os valores abaixo são copiados literalmente
+       em todo @media do projeto, e qualquer novo breakpoint deve nascer aqui
+       primeiro, depois ser replicado nos arquivos.
+
+       --bp-sm:  640px   — celulares grandes / phablets
+       --bp-md:  768px   — tablets em pé (já usado no header/nav)
+       --bp-lg:  1024px  — tablets deitados / notebooks pequenos
+       --bp-xl:  1280px  — desktops
+       --bp-2xl: 1536px  — telas grandes
+       ========================================================================== */
+
+    /* ==========================================================================
+       3. RESET E ACESSIBILIDADE GLOBAL
+       ========================================================================== */
     *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
@@ -104,9 +108,6 @@ vence a cascata, independentemente da ordem de @import em index.css.
     html { scroll-behavior: smooth; }
 
     body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100dvh;
         font-family: system-ui, -apple-system, sans-serif;
         background-color: var(--color-bg-main);
         color: var(--color-text-main);
@@ -116,12 +117,7 @@ vence a cascata, independentemente da ordem de @import em index.css.
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* AJUSTE TÉCNICO: Removido object-fit: cover para evitar cortes globais indesejados */
-    img { 
-        max-width: 100%; 
-        height: auto; 
-        display: block; 
-    }
+    img { max-width: 100%; height: auto; display: block; }
 
     h1, h2, h3, h4, h5, h6 {
         line-height: var(--lh-titles);
@@ -129,7 +125,6 @@ vence a cascata, independentemente da ordem de @import em index.css.
         color: var(--color-text-title);
         margin: 0;
     }
-    
     h1 { font-size: var(--fs-h1); }
     h2 { font-size: var(--fs-h2); }
     h3 { font-size: var(--fs-h3); }
@@ -137,7 +132,6 @@ vence a cascata, independentemente da ordem de @import em index.css.
 
     p { margin-bottom: 1rem; }
     p:last-child { margin-bottom: 0; }
-
     a { color: inherit; text-decoration: none; transition: 0.2s; }
 
     /* Acessibilidade global (foco visível) */
@@ -170,44 +164,54 @@ vence a cascata, independentemente da ordem de @import em index.css.
 }
 
 @layer layout {
+    /* .section-container: fluida até 640px, depois "trava" em degraus fixos
+       a cada breakpoint — mesmo comportamento do .container do Bootstrap e
+       do container padrão do Tailwind. Nenhuma classe extra necessária: todo
+       projeto que carregar core.css já herda isso automaticamente. */
     .section-container {
         width: min(var(--container-max), 100% - 3rem);
         margin-inline: auto;
     }
 
-    .section-main { 
-        padding-block: var(--sp-xl); 
-        position: relative; 
+    @media (min-width: 640px) {
+        .section-container { max-width: 640px; }
+    }
+    @media (min-width: 768px) {
+        .section-container { max-width: 768px; }
+    }
+    @media (min-width: 1024px) {
+        .section-container { max-width: 1024px; }
+    }
+    @media (min-width: 1280px) {
+        .section-container { max-width: min(var(--container-max), 1280px); }
     }
 
-    /* Variante de fundo alternado para seções */
-    .section-alt { 
-        background-color: var(--color-bg-alt); 
-    }
+    .section-main { padding-block: var(--sp-xl); position: relative; }
 
-    /* Grid fixo para demonstrações/documentação */
-    .demo-grid {
-        display: grid;
-        gap: var(--gutter);
-        grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-    }
-}
-
-/* Classes utilitárias de layout (prefixo u-) vivem na layer "utilities" */
-@layer utilities {
+    /* .u-grid: fluida por padrão (auto-fit, sem precisar de breakpoint).
+       Os modificadores abaixo são opt-in, para quando um número FIXO de
+       colunas por breakpoint é desejado — inspirados nos utilitários
+       grid-cols-{n} responsivos do Tailwind. */
     .u-grid {
         display: grid;
         gap: var(--gutter);
         grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     }
-    
-    .u-stack > * + * { 
-        margin-top: var(--sp-md); 
+
+    .u-grid--2, .u-grid--3, .u-grid--4 {
+        grid-template-columns: 1fr;
     }
-    
-    .u-center { 
-        display: grid; 
-        place-items: center; 
-        text-align: center; 
+    @media (min-width: 640px) {
+        .u-grid--2, .u-grid--3, .u-grid--4 { grid-template-columns: repeat(2, 1fr); }
     }
+    @media (min-width: 1024px) {
+        .u-grid--3 { grid-template-columns: repeat(3, 1fr); }
+        .u-grid--4 { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (min-width: 1280px) {
+        .u-grid--4 { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .u-stack > * + * { margin-top: var(--sp-md); }
+    .u-center { display: grid; place-items: center; text-align: center; }
 }
