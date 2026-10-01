@@ -24,6 +24,7 @@ vence a cascata, independentemente da ordem de @import em index.css.
         --color-secondary: #0b3157;
         --color-white: #ffffff;
         --color-overlay: rgba(0, 0, 0, 0.5);
+        --color-black: #000000;
     }
     
 
