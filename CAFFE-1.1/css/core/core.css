@@ -3,7 +3,7 @@
 /* ==========================================================================
    1. CAMADAS DE PRIORIDADE (CSS Layers)
    ========================================================================== */
-@layer base, layout, components, utilities;
+@layer base, layout, components, utilities, theme;
 
 /* ==========================================================================
    2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)

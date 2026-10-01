@@ -1,16 +1,40 @@
-@charset "utf-8";
-:root{
-    --color-one:#F21326;
-    --color-two:#F2133C;
-    --color-three:#F2B807;
-    --color-four:#F2A007;
-    --color-five:#0D0D0D;
+/* ==========================================================================
+   ESTILO-GLOBAL.CSS — Camada de tema do projeto Rugby School Club
+   --------------------------------------------------------------------------
+   Carrega DEPOIS de core.css e ui.css. Só contém a DIFERENÇA em relação ao
+   CAFFE padrão — nunca redeclare um componente inteiro aqui; se precisar
+   mudar mais do que uma regra pontual, o pedido deveria virar uma proposta
+   de mudança no ui.css oficial, não um fork silencioso.
+   ========================================================================== */
+
+@layer theme {
+    :root {
+        /* Marca do Rugby School Club: vermelho no lugar do azul padrão.
+           Essa única troca já propaga sozinha para .btn-primary, hover de
+           .nav-link, foco (:focus-visible) e aria-current="page" — nenhum
+           desses componentes precisa ser reescrito aqui. */
+        --color-primary: #dc0909;
+        --color-primary-hover: #b80707;
+    }
+
+    /* Links do menu em formato "pill" — esse SIM é um desvio visual real
+       do .nav-link padrão (que é só texto, sem borda), então precisa de
+       regra própria. Usa var(--color-primary) em vez de hex fixo, para
+       continuar obedecendo o token acima se ele mudar de novo. */
+    .nav-link {
+        border: 2px solid var(--color-primary);
+        border-radius: 6px;
+        padding: 0.35em 1em;
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+    }
 }
-
-
-
-  
-    
 .main-header{
     background-color: var(--color-five);
     
@@ -42,6 +66,15 @@
     margin-top: 15px;
 }
 
+#elements-header{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    
+   
+    
+}
+
 .nav-menu a{
      border:#dc0909 solid 2px;
 }
@@ -49,6 +82,11 @@
 .nav-menu a{
     color:#dc0909; 
    
+}
+
+.nav-menu a:hover{
+    background-color:#dc0909;
+    color:#fff;
 }
 
 .hero{
