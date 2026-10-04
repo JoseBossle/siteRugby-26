@@ -148,10 +148,6 @@
         display: block;
     }
 
-    li{
-        list-style: none;
-    }
-
     /* Desktop: Transforma o menu automaticamente sem precisar de classes extras */
     @media (min-width: 768px) {
         .nav-menu {
@@ -529,6 +525,51 @@
        quem tem essa preferência de sistema ativada. Nenhum CSS extra aqui. */
 
     /* ==========================================================================
+       8.2 SOCIAL LINK
+       --------------------------------------------------------------------------
+       Deliberadamente SEM borda/pill — é a classe certa pra ícones de redes
+       sociais, em vez de reaproveitar .nav-link (que tem a borda pensada
+       para a navegação principal, definida em estilo-global.css). Projetos
+       com marca própria sobrescrevem --color-text-muted/--color-primary
+       normalmente, sem precisar tocar nesta regra.
+       ========================================================================== */
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        color: var(--color-text-muted);
+        transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .social-link:hover {
+        color: var(--color-primary);
+        background-color: var(--color-bg-alt);
+    }
+
+    /* Ícone dentro do .social-link — dimensionado pra caber no círculo
+       de 2.25rem sem estourar */
+    .img-social {
+        width: 1.1rem;
+        height: 1.1rem;
+        object-fit: contain;
+    }
+
+    /* Link de texto simples para listas (rodapé, menus secundários) —
+       sem borda (diferente de .nav-link) e sem forma de ícone (diferente
+       de .social-link). É a terceira categoria que faltava. */
+    .footer-link {
+        color: var(--color-text-muted);
+        transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+        color: var(--color-primary);
+    }
+
+    /* ==========================================================================
        9. FOOTER UNIVERSAL
        ========================================================================== */
     .main-footer {
@@ -545,6 +586,7 @@
    ========================================================================== */
 @layer utilities {
     .u-text-center { text-align: center; }
+    .u-list-none { list-style: none; padding: 0; margin: 0; }
     .u-mb-1 { margin-bottom: 1rem !important; }
     .u-mb-2 { margin-bottom: 2rem !important; }
     .u-p-0 { padding: 0 !important; }
