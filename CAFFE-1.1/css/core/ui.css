@@ -15,9 +15,9 @@
         background-color: var(--color-bg-surface);
         color: var(--color-text-main);
         padding-block: var(--sp-sm);
-       /* position: sticky;*/
+        position: sticky;
         inset-block-start: 0;
-       /* z-index: var(--z-header);*/
+        z-index: var(--z-header);
         border-bottom: 1px solid var(--color-border);
         box-shadow: var(--shadow);
         transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -32,6 +32,34 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* Branding: logo + título + subtítulo, todos fluidos via clamp() —
+       sem salto de breakpoint, cresce suave conforme a tela aumenta. */
+    .header-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--sp-sm);
+    }
+
+    .brand-logo {
+        height: clamp(2.5rem, 4vw + 1rem, 4rem);
+        width: auto;
+        object-fit: contain;
+    }
+
+    .brand-title {
+        font-size: clamp(1.1rem, 1.5vw + 0.75rem, 1.75rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin: 0;
+    }
+
+    .brand-subtitle {
+        font-size: clamp(0.75rem, 0.5vw + 0.6rem, 0.95rem);
+        color: var(--color-text-muted);
+        margin: 0;
     }
 
     /* Menu padrão mobile (escondido inicialmente) */
@@ -447,6 +475,54 @@
         height: auto;
         object-fit: contain;
     }
+
+    /* ==========================================================================
+       8.1 LOGO CHIP + ESTEIRA DE LOGOS (marquee)
+       --------------------------------------------------------------------------
+       A esteira é 100% CSS, sem JS — é um caso diferente do carrossel por
+       clique (data-carousel-prev/next, ainda pendente de CSS). Para logos
+       deslizando sem controle manual, @keyframes puro é mais simples e leve.
+       ========================================================================== */
+    .logo-chip {
+        width: 100%;
+        max-width: 120px;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        border-radius: 50%;
+        border: 2px solid var(--color-primary);
+        padding: var(--sp-xs);
+        background: var(--color-bg-surface);
+    }
+
+    .logo-marquee {
+        overflow: hidden;
+        width: 100%;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .logo-marquee__track {
+        display: flex;
+        align-items: center;
+        gap: var(--sp-lg);
+        width: max-content;
+        animation: caffe-marquee 20s linear infinite;
+    }
+
+    /* Pausa ao passar o mouse ou focar via teclado — não é só estética,
+       é acessibilidade: movimento contínuo que não pode ser pausado é um
+       critério WCAG (2.2.2, Pause, Stop, Hide). */
+    .logo-marquee:hover .logo-marquee__track,
+    .logo-marquee__track:focus-within {
+        animation-play-state: paused;
+    }
+
+    @keyframes caffe-marquee {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    /* prefers-reduced-motion já é tratado globalmente em core.css — zera
+       a duração da animação, então a esteira para automaticamente para
+       quem tem essa preferência de sistema ativada. Nenhum CSS extra aqui. */
 
     /* ==========================================================================
        9. FOOTER UNIVERSAL
