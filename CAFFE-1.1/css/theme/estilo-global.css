@@ -1,4 +1,13 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.bebas-neue-regular {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 
 @layer theme {
     :root {
@@ -115,6 +124,13 @@
 
 h1{
     margin-top:40px;
+    font-size: 5rem;
+    text-align:center;
+    color:#fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   
 }
 
