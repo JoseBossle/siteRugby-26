@@ -2,40 +2,38 @@
 
 @layer theme {
     :root {
-        /* Marca do Rugby School Club: vermelho no lugar do azul padrão.
-           Essa única troca já propaga sozinha para .btn-primary, hover de
-           .nav-link, foco (:focus-visible) e aria-current="page" — nenhum
-           desses componentes precisa ser reescrito aqui. */
+        
         --color-primary: #dc0909;
         --color-primary-hover: #b80707;
     }
 
-    /* Links do menu em formato "pill" — esse SIM é um desvio visual real
-       do .nav-link padrão (que é só texto, sem borda), então precisa de
-       regra própria. Usa var(--color-primary) em vez de hex fixo, para
-       continuar obedecendo o token acima se ele mudar de novo. */
-    .nav-link {
-        border: 2px solid var(--color-primary);
-        border-radius: 6px;
-        padding: 0.35em 1em;
-        font-size: 0.9rem;
-        line-height: 1.2;
-    }
+    
 
-    .nav-link:hover,
-    .nav-link[aria-current="page"] {
-        background-color: var(--color-primary);
-        color: var(--color-white);
-    }
-}
+   
+   
 .main-header{
     background-color: var(--color-five);
-   
+    transition: background-color 0.3s ease;
+     will-change: opacity, transform;
    
 }
 
+@supports (animation-timeline: scroll()) {
+  .main-header {
+    animation: hide-header linear both;
+    animation-timeline: scroll(root block);
+  
+    animation-range: 0px 150px; 
+  }
 
-
+  @keyframes hide-header {
+    to {
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none; 
+    }
+  }
+}
 
 #primary-nav{
     display:none;
@@ -89,6 +87,22 @@
     color:#fff;
 }
 
+
+ .nav-link {
+        border: 2px solid var(--color-primary);
+        border-radius: 6px;
+        padding: 0.35em 1em;
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+    }
+}
+
 .hero{
     height: 100dvh;
    background-image: url(../../../assets/imgs/Img-header.jpg);
@@ -107,6 +121,20 @@ h1{
 p{
     font-size: var(--fs-h3);
     }
+
+
+
+.img-noticias-rugby{
+    margin:auto;
+    padding-top: 20px;
+    border-radius: 10px;
+   
+}  
+
+.btn-noticias-rugby{
+    background-color: #b80707;
+    color: #fff;
+}
    
 .img-treinadores{
    width: 100%;
@@ -130,3 +158,8 @@ p{
 }
    
    
+
+
+
+
+
