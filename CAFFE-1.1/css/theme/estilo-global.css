@@ -124,7 +124,7 @@
 
 h1{
     margin-top:40px;
-    font-size: 5rem;
+    font-size:var(--fs-h1);
     text-align:center;
     color:#fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
@@ -135,7 +135,7 @@ h1{
 }
 
 p{
-    font-size: var(--fs-h3);
+    font-size: var(--fs-base);
     }
 
 
