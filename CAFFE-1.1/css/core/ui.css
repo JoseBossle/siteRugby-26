@@ -148,6 +148,10 @@
         display: block;
     }
 
+    li{
+        list-style: none;
+    }
+
     /* Desktop: Transforma o menu automaticamente sem precisar de classes extras */
     @media (min-width: 768px) {
         .nav-menu {
