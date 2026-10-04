@@ -1,11 +1,4 @@
-/* ==========================================================================
-   ESTILO-GLOBAL.CSS — Camada de tema do projeto Rugby School Club
-   --------------------------------------------------------------------------
-   Carrega DEPOIS de core.css e ui.css. Só contém a DIFERENÇA em relação ao
-   CAFFE padrão — nunca redeclare um componente inteiro aqui; se precisar
-   mudar mais do que uma regra pontual, o pedido deveria virar uma proposta
-   de mudança no ui.css oficial, não um fork silencioso.
-   ========================================================================== */
+
 
 @layer theme {
     :root {
@@ -37,11 +30,12 @@
 }
 .main-header{
     background-color: var(--color-five);
-    transition:
-        background-color 0.5s ease,
-        backdrop-filter 0.5s ease;
+   
    
 }
+
+
+
 
 #primary-nav{
     display:none;
@@ -54,35 +48,22 @@
   
 }
 
-#img-logo{
+.img-logo{
     border-radius: 50%;
     width: 80px;;
     height: 80px;
 
-     opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-
-    transition:
-        opacity 0.35s ease,
-        visibility 0.35s ease,
-        transform 0.35s ease;
+   
 }
 
        
 
- #img-logo {
-     opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    pointer-events: none;
-}
-
-
+ 
 .nav-toggle-btn{
      width: 25px;;
     height:25px;
     margin-top: 15px;
+    
 }
 
 #elements-header{
