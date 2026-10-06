@@ -9,7 +9,6 @@
    2. DESIGN TOKENS (Variáveis Globais e Temas Dinâmicos)
    ========================================================================== */
 @layer base {
-
     :root[data-theme="light"] {
         --color-bg-main: #f8f9fa;
         --color-bg-surface: #ffffff;
@@ -24,7 +23,7 @@
         --color-secondary: #0b3157;
         --color-white: #ffffff;
         --color-overlay: rgba(0, 0, 0, 0.5);
-    } /* end :root[data-theme="light"] */
+    }
 
     :root[data-theme="dark"] {
         --color-bg-main: #121212;
@@ -40,7 +39,7 @@
         --color-secondary: #164e7a;
         --color-white: #ffffff;
         --color-overlay: rgba(0, 0, 0, 0.7);
-    } /* end :root[data-theme="dark"] */
+    }
 
     :root {
         /* Espaçamento Fluido */
@@ -77,7 +76,7 @@
         --clr-success: #16a34a;
         --clr-warning: #f59e0b;
         --clr-danger: #dc2626;
-    } /* end :root */
+    }
 
     /* ==========================================================================
        2.5 ESCALA DE BREAKPOINTS (referência)
@@ -125,6 +124,8 @@
         font-weight: 700;
         color: var(--color-text-title);
         margin: 0;
+        padding:10px;
+        font-variant:small-caps;
     }
     h1 { font-size: var(--fs-h1); }
     h2 { font-size: var(--fs-h2); }
@@ -153,24 +154,18 @@
         white-space: nowrap;
         border: 0;
     }
+}
 
-    /* Preferência por movimento reduzido — dentro da layer base */
-    @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-        }
-    } /* end @media prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
 
-} /* end @layer base */
-
-/* ==========================================================================
-   4. LAYOUT
-   ========================================================================== */
 @layer layout {
-
     /* .section-container: fluida até 640px, depois "trava" em degraus fixos
        a cada breakpoint — mesmo comportamento do .container do Bootstrap e
        do container padrão do Tailwind. Nenhuma classe extra necessária: todo
@@ -182,21 +177,19 @@
 
     @media (min-width: 640px) {
         .section-container { max-width: 640px; }
-    } /* end @media 640px — section-container */
-
+    }
     @media (min-width: 768px) {
         .section-container { max-width: 768px; }
-    } /* end @media 768px — section-container */
-
+    }
     @media (min-width: 1024px) {
         .section-container { max-width: 1024px; }
-    } /* end @media 1024px — section-container */
-
+    }
     @media (min-width: 1280px) {
         .section-container { max-width: min(var(--container-max), 1280px); }
-    } /* end @media 1280px — section-container */
+    }
 
     .section-main { padding-block: var(--sp-xl); position: relative; }
+    .section-alt { background: var(--color-bg-alt); }
 
     /* .u-grid: fluida por padrão (auto-fit, sem precisar de breakpoint).
        Os modificadores abaixo são opt-in, para quando um número FIXO de
@@ -208,42 +201,36 @@
         grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     }
 
-    .u-grid--2,
-    .u-grid--3,
-    .u-grid--4 {
+    .u-grid--2, .u-grid--3, .u-grid--4 {
         grid-template-columns: 1fr;
     }
-
     @media (min-width: 640px) {
-        .u-grid--2,
-        .u-grid--3,
-        .u-grid--4 { grid-template-columns: repeat(2, 1fr); }
-    } /* end @media 640px — u-grid */
-
+        .u-grid--2, .u-grid--3, .u-grid--4 { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (min-width: 1024px) {
         .u-grid--3 { grid-template-columns: repeat(3, 1fr); }
         .u-grid--4 { grid-template-columns: repeat(4, 1fr); }
-    } /* end @media 1024px — u-grid */
-
+    }
     @media (min-width: 1280px) {
         .u-grid--4 { grid-template-columns: repeat(4, 1fr); }
-    } /* end @media 1280px — u-grid */
+    }
 
     .u-stack > * + * { margin-top: var(--sp-md); }
 
-    .u-center { display: grid; place-items: center; text-align: center; }
-
+    /* Variante com nome próprio — não colide com .u-stack e é
+       responsiva de verdade: empilhada no mobile, em linha a partir
+       do breakpoint md (768px). Ajuste o breakpoint se precisar de
+       outro ponto de quebra. */
     .u-stack-responsive {
         display: flex;
         flex-direction: column;
         gap: var(--sp-sm);
     }
-
     @media (min-width: 768px) {
         .u-stack-responsive {
             flex-direction: row;
             align-items: center;
         }
-    } /* end @media 768px — u-stack-responsive */
-
-} /* end @layer layout */
+    }
+    .u-center { display: grid; place-items: center; text-align: center; }
+}

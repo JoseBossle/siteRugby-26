@@ -1,11 +1,19 @@
 /**
- * CAFFE ENGINE - Motor de Automação de Comportamentos v2.1
- * Unificado e sem dependências externas órfãs.
+ * CAFFE ENGINE - Motor de Automação de Comportamentos v3.0
+ * Agora com: focus trap real em overlays (modal/off-canvas), sincronização
+ * ARIA no sistema de abas, e aria-current="page" na navegação.
  */
 
-import { rafThrottle } from './core.js';
+import { rafThrottle, getFocusable, trapFocus } from './core.js';
 
 export const UIEngine = {
+  // Estado do overlay ativo no momento (só um por vez, por design)
+  _overlay: {
+    target: null,
+    trigger: null,
+    releaseTrap: null,
+  },
+
   init() {
     this.handleToggles();
     this.handleSmoothScroll();
@@ -13,10 +21,36 @@ export const UIEngine = {
     this.handleModals();
     this.handleTabs();
     this.initTheme();
-    this.handleCarousel(); // Executa internamente sem necessidade de importação externa
+    this.handleCarousel();
+    this.handleActiveNavLink();
   },
 
-  // 1. Alternância Genérica via [data-toggle] (Modais, Menus, Off-canvas, Dropdown, etc.)
+  // --- Focus trap interno, compartilhado por modal e off-canvas ---
+  _openOverlay(target, trigger) {
+    this._overlay.target = target;
+    this._overlay.trigger = trigger;
+
+    const panel = target.querySelector('.modal__content, .offcanvas__panel') || target;
+    this._overlay.releaseTrap = trapFocus(panel);
+
+    const focusable = getFocusable(panel);
+    (focusable[0] || panel).focus();
+  },
+
+  _closeOverlay() {
+    if (this._overlay.releaseTrap) {
+      this._overlay.releaseTrap();
+    }
+    this._overlay.target?.classList.remove('is-active');
+    this._overlay.trigger?.setAttribute('aria-expanded', 'false');
+    this._overlay.trigger?.focus();
+
+    this._overlay = { target: null, trigger: null, releaseTrap: null };
+  },
+
+  // 1. Alternância Genérica via [data-toggle] — overlays (modal/off-canvas)
+  // ganham focus trap automático; os demais (dropdown, nav-menu) seguem
+  // apenas com o toggle simples de classe.
   handleToggles() {
     document.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-toggle]');
@@ -24,33 +58,45 @@ export const UIEngine = {
 
       const targetSelector = trigger.dataset.toggle;
       const target = document.querySelector(targetSelector);
+      if (!target) return;
 
-      if (target) {
-        const isActive = target.classList.contains('is-active');
-        target.classList.toggle('is-active', !isActive);
-        trigger.setAttribute('aria-expanded', !isActive);
+      const isOverlay = target.classList.contains('modal') || target.classList.contains('offcanvas');
+      const isActive = target.classList.contains('is-active');
+
+      if (isOverlay) {
+        if (isActive) {
+          this._closeOverlay();
+        } else {
+          target.classList.add('is-active');
+          trigger.setAttribute('aria-expanded', 'true');
+          this._openOverlay(target, trigger);
+        }
+        return;
       }
+
+      target.classList.toggle('is-active', !isActive);
+      trigger.setAttribute('aria-expanded', !isActive);
     });
   },
 
-  // 2. Fechamento de Overlays (Modais e Off-canvas) por Clique Externo ou Tecla ESC
+  // 2. Fechamento de Overlays por Clique no Backdrop ou Tecla ESC
+  // (roteado por _closeOverlay para sempre liberar o focus trap e devolver
+  // o foco ao elemento que abriu — evitar isso era o bug antigo)
   handleModals() {
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal')) {
-        e.target.classList.remove('is-active');
+      if (e.target.classList.contains('modal') && e.target.classList.contains('is-active')) {
+        this._closeOverlay();
       }
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.modal.is-active, .offcanvas.is-active').forEach(el => {
-          el.classList.remove('is-active');
-        });
+      if (e.key === 'Escape' && this._overlay.target) {
+        this._closeOverlay();
       }
     });
   },
 
-  // 3. Sistema de Abas (Tabs) via [data-tab-target]
+  // 3. Sistema de Abas — troca de painel + sincronização ARIA completa
   handleTabs() {
     document.addEventListener('click', (e) => {
       const tabBtn = e.target.closest('[data-tab-target]');
@@ -62,25 +108,48 @@ export const UIEngine = {
 
       const navContainer = tabBtn.closest('.tabs-nav');
       if (navContainer) {
-        navContainer.querySelectorAll('[data-tab-target]').forEach(btn => {
+        navContainer.querySelectorAll('[data-tab-target]').forEach((btn) => {
           btn.classList.remove('is-active');
+          btn.setAttribute('aria-selected', 'false');
+          btn.setAttribute('tabindex', '-1');
         });
       }
       tabBtn.classList.add('is-active');
+      tabBtn.setAttribute('aria-selected', 'true');
+      tabBtn.setAttribute('tabindex', '0');
 
       const parentContainer = targetPanel.closest('.tabs-container') || document;
-      parentContainer.querySelectorAll('.tab-panel').forEach(panel => {
+      parentContainer.querySelectorAll('.tab-panel').forEach((panel) => {
         panel.classList.remove('is-active');
       });
-
       targetPanel.classList.add('is-active');
+    });
+
+    // Estado ARIA inicial — cobre a aba que já nasce .is-active no HTML,
+    // sem depender do usuário clicar primeiro.
+    document.querySelectorAll('.tabs-nav').forEach((nav) => {
+      nav.setAttribute('role', 'tablist');
+      nav.querySelectorAll('[data-tab-target]').forEach((btn) => {
+        btn.setAttribute('role', 'tab');
+        const active = btn.classList.contains('is-active');
+        btn.setAttribute('aria-selected', String(active));
+        btn.setAttribute('tabindex', active ? '0' : '-1');
+      });
+    });
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      panel.setAttribute('role', 'tabpanel');
     });
   },
 
-  // 4. Alternador de Tema Dark/Light com LocalStorage sincronizado com Design Tokens
+  // 4. Tema Dark/Light — a LEITURA inicial já acontece de forma síncrona no
+  // <head> de cada página (ver snippet anti-FOUC no index.html), antes do
+  // primeiro paint. Aqui só cobrimos: (a) fallback idempotente caso o
+  // snippet não tenha rodado por algum motivo, e (b) o toggle em tempo real.
   initTheme() {
-    const savedTheme = localStorage.getItem('caffe-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (!document.documentElement.hasAttribute('data-theme')) {
+      const savedTheme = localStorage.getItem('caffe-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
 
     document.addEventListener('click', (e) => {
       const themeToggle = e.target.closest('[data-theme-toggle]');
@@ -111,15 +180,14 @@ export const UIEngine = {
       if (!viewport) return;
 
       const scrollAmount = viewport.clientWidth;
-
       viewport.scrollBy({
         left: prevBtn ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     });
   },
 
-  // 6. Scroll Suave Automático para links internos
+  // 6. Scroll Suave para links internos — também atualiza o link ativo
   handleSmoothScroll() {
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href^="#"]');
@@ -129,19 +197,45 @@ export const UIEngine = {
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.pushState(null, '', link.hash);
+        this._updateActiveNavLink();
       }
     });
   },
 
-  // 7. Header Sticky Dinâmico ao rolar a página
-  // (agrupado por frame via rafThrottle — evita rodar o toggle de classe a
-  // cada evento de scroll bruto disparado pelo navegador)
+  // 7. Header Sticky Dinâmico (agrupado por frame via rafThrottle)
   handleStickyHeader() {
     const header = document.querySelector('.main-header');
     if (!header) return;
 
     window.addEventListener('scroll', rafThrottle(() => {
-      header.classList.toggle('is-scrolled', window.scrollY > 50);
+      const y = window.scrollY;
+      header.classList.toggle('is-scrolled', y > 50);
+      // Segundo estágio: header transparente, marca e navegação escondidas
+      // (estilo .is-transparent definido em ui.css — ver .main-header.is-transparent)
+      header.classList.toggle('is-transparent', y > 150);
     }), { passive: true });
-  }
+  },
+
+  // 8. Indicação do link de navegação ativo (aria-current="page")
+  handleActiveNavLink() {
+    if (!document.querySelectorAll('.nav-link[href^="#"]').length) return;
+
+    this._updateActiveNavLink();
+    window.addEventListener('hashchange', () => this._updateActiveNavLink());
+  },
+
+  _updateActiveNavLink() {
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    if (!navLinks.length) return;
+
+    const currentHash = window.location.hash || navLinks[0].getAttribute('href');
+    navLinks.forEach((link) => {
+      if (link.getAttribute('href') === currentHash) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  },
 };

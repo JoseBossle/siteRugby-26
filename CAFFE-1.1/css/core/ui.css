@@ -28,6 +28,33 @@
         box-shadow: var(--shadow-lg);
     }
 
+    /* Segundo estágio de scroll: header transparente, marca e navegação
+       escondidas. Sempre escopado sob .is-transparent — nunca seletor de
+       ID — então não interfere no breakpoint de 1024px nem no toggle
+       mobile (.nav-menu.is-active continua abrindo normalmente). */
+    .main-header.is-transparent {
+        background-color: transparent;
+        border-bottom-color: transparent;
+        box-shadow: none;
+    }
+
+    .header-brand,
+    .nav-toggle-btn {
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .main-header.is-transparent .header-brand,
+    .main-header.is-transparent .nav-toggle-btn {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+
+    .main-header.is-transparent .nav-menu:not(.is-active) {
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .nav-wrapper {
         display: flex;
         justify-content: space-between;
@@ -106,12 +133,12 @@
     /* Botão Hambúrguer estilizado */
     .nav-toggle-btn {
         background: transparent;
-        /* border: 1px solid var(--color-border); */
+        border: 1px solid var(--color-border);
         color: var(--color-text-main);
         font-size: 1.25rem;
         cursor: pointer;
         padding: var(--sp-xs) var(--sp-sm);
-       /* border-radius: var(--radius);*/
+        border-radius: var(--radius);
         transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
@@ -533,28 +560,40 @@
        com marca própria sobrescrevem --color-text-muted/--color-primary
        normalmente, sem precisar tocar nesta regra.
        ========================================================================== */
-    .social-link {
+    .social-link {/*CORRIGIR ESTRUTURA DE POSIIÇÃO EM COLUNA PARA LINHA*/
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 2.75rem;
+        height: 2.75rem;
         border-radius: 50%;
+        border: 1px solid var(--color-border);
         color: var(--color-text-muted);
-        transition: color 0.2s ease, background-color 0.2s ease;
+        transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
     .social-link:hover {
-        color: var(--color-primary);
-        background-color: var(--color-bg-alt);
+        color: var(--color-white);
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+        transform: translateY(-2px);
     }
 
     /* Ícone dentro do .social-link — dimensionado pra caber no círculo
-       de 2.25rem sem estourar */
+       de 2.75rem sem estourar */
     .img-social {
-        width: 1.1rem;
-        height: 1.1rem;
+        width: 1.25rem;
+        height: 1.25rem;
         object-fit: contain;
+    }
+
+    /* Fileira de ícones sociais: sempre em linha (mesmo no mobile — ícone
+       empilhado verticalmente não é o padrão esperado em rodapé
+       profissional), com quebra automática se a tela for muito estreita. */
+    .social-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sp-sm);
     }
 
     /* Link de texto simples para listas (rodapé, menus secundários) —
@@ -562,11 +601,24 @@
        de .social-link). É a terceira categoria que faltava. */
     .footer-link {
         color: var(--color-text-muted);
+        font-size: 0.925rem;
+        line-height: 2;
         transition: color 0.2s ease;
     }
 
     .footer-link:hover {
         color: var(--color-primary);
+    }
+
+    /* Título de coluna do rodapé: hierarquia mais forte que um <h4> comum
+       do corpo do texto — discreto, mas claramente um rótulo de seção. */
+    .footer-heading {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-title);
+        margin-bottom: var(--sp-xs);
     }
 
     /* ==========================================================================
@@ -589,8 +641,13 @@
     .u-list-none { list-style: none; padding: 0; margin: 0; }
     .u-mb-1 { margin-bottom: 1rem !important; }
     .u-mb-2 { margin-bottom: 2rem !important; }
+    .u-mt-lg { margin-top: var(--sp-lg) !important; }
+    .u-pt-md { padding-top: var(--sp-md) !important; }
     .u-p-0 { padding: 0 !important; }
     .u-weight-bold { font-weight: 700 !important; }
+    .u-text-muted { color: var(--color-text-muted); }
+    .u-text-sm { font-size: 0.85rem; }
+    .u-border-top { border-top: 1px solid var(--color-border); }
 
     @media (max-width: 768px) {
         .u-hide-mobile { display: none !important; }
