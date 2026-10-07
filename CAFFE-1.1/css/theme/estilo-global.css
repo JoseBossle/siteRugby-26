@@ -58,7 +58,7 @@
    
 }
 
-       
+ 
 
  
 .nav-toggle-btn{
@@ -116,7 +116,19 @@
    
 }
 
+.rugby-title {
+    font-size: clamp(2rem, 5vw, 6.5rem);
 
+    color: var(--color-primary);
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    font-family: 'Righteous', cursive;
+
+    text-align: center;
+
+    margin-top: 20px;
+}
 
 
 p{
@@ -159,9 +171,7 @@ p{
 }
 
 
-.u-stack{
-    background-color: green;/*corrigir*/
-}
+
    
    .footer-blocks{
     display: flex;
