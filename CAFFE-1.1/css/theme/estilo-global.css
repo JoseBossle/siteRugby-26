@@ -131,8 +131,10 @@
 }
 
 
-p{
-    font-size: var(--fs-base);
+.p-subtitle{
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    color: var(--color-primary);
     }
 
 

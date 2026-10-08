@@ -125,7 +125,7 @@
         color: var(--color-text-title);
         margin: 0;
         padding:10px;
-        font-variant:small-caps;
+        font-variant:small-caps;/*colocar cada elemento com sua configuração*/
     }
     h1 { font-size: var(--fs-h1); }
     h2 { font-size: var(--fs-h2); }
@@ -215,7 +215,7 @@
         .u-grid--4 { grid-template-columns: repeat(4, 1fr); }
     }
 
-    .u-stack > * + * { margin-top: var(--sp-md); }
+    .u-stack > * + * { margin-top: var(--sp-md); }/*melhorar ostitulos e paragrafos*/
 
     /* Variante com nome próprio — não colide com .u-stack e é
        responsiva de verdade: empilhada no mobile, em linha a partir
