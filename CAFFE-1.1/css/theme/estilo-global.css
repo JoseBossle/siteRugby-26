@@ -216,7 +216,7 @@ footer {
 }
 
 /* Links vermelhos por padrão */
-footer a {
+ .a-footer {
     color: #e60000;
     text-decoration: none;
     transition: color 0.3s ease;
