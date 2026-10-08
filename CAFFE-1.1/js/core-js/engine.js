@@ -238,3 +238,5 @@ export const UIEngine = {
     });
   },
 };
+
+document.addEventListener('DOMContentLoaded', () => UIEngine.init());

@@ -209,3 +209,25 @@
 
 
 
+/* Footer branco por padrão */
+footer {
+    background-color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+/* Links vermelhos por padrão */
+footer a {
+    color: #e60000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Footer fica vermelho quando um link recebe hover */
+footer:has(a:hover) {
+    background-color: #e60000;
+}
+
+/* Links permanecem vermelhos no hover */
+footer a:hover {
+    color: #e60000;
+}
