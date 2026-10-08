@@ -75,16 +75,19 @@ export const UIEngine = {
       }
 
       target.classList.toggle('is-active', !isActive);
-      trigger.setAttribute('aria-expanded', !isActive);
+      trigger.setAttribute('aria-expanded', String(!isActive));
     });
   },
 
   // 2. Fechamento de Overlays por Clique no Backdrop ou Tecla ESC
-  // (roteado por _closeOverlay para sempre liberar o focus trap e devolver
-  // o foco ao elemento que abriu — evitar isso era o bug antigo)
   handleModals() {
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal') && e.target.classList.contains('is-active')) {
+      const isModalBackdrop = e.target.classList.contains('modal')
+                           && e.target.classList.contains('is-active');
+      const isOffcanvasBackdrop = e.target.classList.contains('offcanvas')
+                               && e.target.classList.contains('is-active');
+
+      if (isModalBackdrop || isOffcanvasBackdrop) {
         this._closeOverlay();
       }
     });
@@ -141,10 +144,7 @@ export const UIEngine = {
     });
   },
 
-  // 4. Tema Dark/Light — a LEITURA inicial já acontece de forma síncrona no
-  // <head> de cada página (ver snippet anti-FOUC no index.html), antes do
-  // primeiro paint. Aqui só cobrimos: (a) fallback idempotente caso o
-  // snippet não tenha rodado por algum motivo, e (b) o toggle em tempo real.
+  // 4. Tema Dark/Light
   initTheme() {
     if (!document.documentElement.hasAttribute('data-theme')) {
       const savedTheme = localStorage.getItem('caffe-theme') || 'light';
@@ -187,11 +187,12 @@ export const UIEngine = {
     });
   },
 
-  // 6. Scroll Suave para links internos — também atualiza o link ativo
+  // 6. Scroll Suave para links internos — ignora links que são triggers de overlay
   handleSmoothScroll() {
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href^="#"]');
       if (!link || link.hash === '') return;
+      if (link.hasAttribute('data-toggle')) return;
 
       const target = document.querySelector(link.hash);
       if (target) {
@@ -211,8 +212,6 @@ export const UIEngine = {
     window.addEventListener('scroll', rafThrottle(() => {
       const y = window.scrollY;
       header.classList.toggle('is-scrolled', y > 50);
-      // Segundo estágio: header transparente, marca e navegação escondidas
-      // (estilo .is-transparent definido em ui.css — ver .main-header.is-transparent)
       header.classList.toggle('is-transparent', y > 150);
     }), { passive: true });
   },

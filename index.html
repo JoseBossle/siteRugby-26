@@ -11,7 +11,48 @@
    
 </head>
 <body>
+   <div id="menu-lateral" class="offcanvas" data-position="right">
+    <div class="offcanvas__backdrop" data-toggle="#menu-lateral"></div>
+    <div class="offcanvas__panel" role="dialog" aria-modal="true" aria-label="Menu principal">
 
+        <header class="offcanvas__header">
+            <h2 class="offcanvas__title">Menu</h2>
+            <img class="brand-logo" src="assets/imgs/logo-rugby.png" alt="Rugby School Club">
+            <button class="offcanvas__close" data-toggle="#menu-lateral" aria-label="Fechar menu">
+                ✕
+            </button>
+        </header>
+
+        <nav class="offcanvas__sections" aria-label="Navegação principal">
+            <section class="offcanvas__section">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="#ingressos"  class="nav-link" data-toggle="#menu-lateral">Ingressos</a></li>
+                    <li><a href="#calendario" class="nav-link" data-toggle="#menu-lateral">Calendário</a></li>
+                    <li><a href="#matriculas" class="nav-link" data-toggle="#menu-lateral">Matrículas</a></li>
+                    <li><a href="#loja"       class="nav-link" data-toggle="#menu-lateral">Loja Oficial</a></li>
+                </ul>
+            </section>
+        </nav>
+
+        <footer class="offcanvas__footer">
+            <ul class="u-list-none social-row">
+                <li><a href="#" class="social-link" aria-label="Facebook">
+                    <img src="assets/imgs/icons-facebook.png" alt="" class="img-social">
+                </a></li>
+                <li><a href="#" class="social-link" aria-label="Instagram">
+                    <img src="assets/imgs/icons-instagram.png" alt="" class="img-social">
+                </a></li>
+                <li><a href="#" class="social-link" aria-label="YouTube">
+                    <img src="assets/imgs/iconsyoutube.png" alt="" class="img-social">
+                </a></li>
+            </ul>
+            <p class="u-mt-lg">&copy; 2026 Rugby Esporte Clube.</p>
+        </footer>
+
+    </div>
+</div>
+   
     <!-- HEADER & NAVIGATION -->
     <header class="main-header">
         <div class="section-container">
@@ -22,10 +63,15 @@
                         <img class="img-logo" class="img-section img-section--contain" src="assets/imgs/logo-rugby.png" alt="Rugby School Club Logo" >
                       </figure>
                  
-              <button class="nav-toggle-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu" data-toggle="nav-toggle-btn">
-                  ☰
-              </button>
-         
+           <button class="nav-toggle-btn"
+                    id="primary-nav-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="menu-lateral"
+                    aria-label="Abrir menu"
+                    data-toggle="#menu-lateral">
+                ☰
+            </button>
 
             <nav id="primary-nav" class="nav-menu">
                 
@@ -271,9 +317,9 @@
             <h4>Desenvolvido por José Bossle</h4>
             <ul class="social-row">
                
-                <li><a href="https://github.com/JoseBossle" target="_blank" rel="noopener noreferrer"> 
+                <li><a class="nav-link" href="https://github.com/JoseBossle" target="_blank" rel="noopener noreferrer"> 
                     <img class="imag-social social-row" src="assets/imgs/github.png" alt="github"></a></li>
-                <li><a href="https://www.linkedin.com/in/jose-bossle-3a5b8b1a5/" target="_blank" rel="noopener noreferrer">
+                <li><a class="nav-link" href="https://www.linkedin.com/in/jose-bossle-3a5b8b1a5/" target="_blank" rel="noopener noreferrer">
                      <img class="imag-social social-row" src="assets/imgs/linkedin.png" alt="linkedin">
                 </a></li>
                 <li><a href="#">© 2026 Rugby School Club. Todos os direitos reservados.</a></li>
@@ -284,6 +330,8 @@
     </footer>  
 </body>
 <script src="CAFFE-1.1/js/core-js/engine.js" type="module"></script>
+
+
 </html>
         
 

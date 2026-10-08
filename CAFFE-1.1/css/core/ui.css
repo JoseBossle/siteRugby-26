@@ -253,7 +253,7 @@
     }
     .btn-outline:hover {
         background: var(--color-bg-alt);
-        border-color: var(--color-text-muted);
+     border-color: var(--color-text-muted);
     }
 
     input, textarea, select {
@@ -446,6 +446,8 @@
         color: var(--color-text-muted);
         font-size: 0.85rem;
     }
+
+    body:has(.offcanvas.is-active) { overflow: hidden; }
 
     /* Landscape em celular (viewport curto): reduz o respiro vertical do
        modal para sobrar espaço de conteúdo visível, e garante que o header

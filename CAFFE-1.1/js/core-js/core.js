@@ -15,9 +15,10 @@ export function rafThrottle(fn) {
   return function throttled(...args) {
     if (scheduled) return;
     scheduled = true;
+    const ctx = this;
 
     requestAnimationFrame(() => {
-      fn.apply(this, args);
+      fn.apply(ctx, args);
       scheduled = false;
     });
   };
